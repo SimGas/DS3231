@@ -16,7 +16,7 @@ working as they should.
 DS3231 Clock;
 bool Century=false;
 bool h12;
-bool PM;
+bool PM_time;
 byte ADay, AHour, AMinute, ASecond, ABits;
 bool ADy, A12h, Apm;
 
@@ -48,14 +48,14 @@ void loop() {
 	Serial.print(Clock.getDoW(), DEC);
 	Serial.print(' ');
 	// Finally the hour, minute, and second
-	Serial.print(Clock.getHour(h12, PM), DEC);
+	Serial.print(Clock.getHour(h12, PM_time), DEC);
 	Serial.print(' ');
 	Serial.print(Clock.getMinute(), DEC);
 	Serial.print(' ');
 	Serial.print(Clock.getSecond(), DEC);
 	// Add AM/PM indicator
 	if (h12) {
-		if (PM) {
+		if (PM_time) {
 			Serial.print(" PM ");
 		} else {
 			Serial.print(" AM ");
@@ -107,6 +107,9 @@ void loop() {
 	if (Clock.checkAlarmEnabled(1)) {
 		Serial.print("enabled");
 	}
+	// display alarm bits
+	Serial.print("\nAlarm1 bits: ");
+	Serial.print(ABits, BIN);
 	Serial.print('\n');
 	// Display Alarm 2 information
 	Serial.print("Alarm 2: ");
@@ -133,7 +136,7 @@ void loop() {
 		Serial.print("enabled");
 	}
 	// display alarm bits
-	Serial.print('\nAlarm bits: ');
+	Serial.print("\nAlarm2 bits: ");
 	Serial.print(ABits, BIN);
 
 	Serial.print('\n');
